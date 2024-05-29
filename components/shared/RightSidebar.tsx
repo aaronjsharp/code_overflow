@@ -3,19 +3,19 @@ import Link from 'next/link';
 import React from 'react';
 import RenderTag from './RenderTag';
 const hotQuestions = [
-    { _id: 1, title: 'How do I use React'},
-    { _id: 2, title: 'How do I use React'},
-    { _id: 3, title: 'How do I use React'},
-    { _id: 4, title: 'How do I use React'},
-    { _id: 5, title: 'How do I use React'}
+    { _id: "1", title: 'How do I use React'},
+    { _id: "2", title: 'How do I use React'},
+    { _id: "3", title: 'How do I use React'},
+    { _id: "4", title: 'How do I use React'},
+    { _id: "5", title: 'How do I use React'}
   ]
 
 const popularTags = [
-  { _id: 1, name: 'javascript', totalQuestions: 1},
-  { _id: 2, name: 'react', totalQuestions: 10},
-  { _id: 3, name: 'nextjs', totalQuestions: 7},
-  { _id: 4, name: 'vue', totalQuestions: 3},
-  { _id: 5, name: 'html', totalQuestions: 4},
+  { _id: '1', name: 'javascript', totalQuestions: 1},
+  { _id: '2', name: 'react', totalQuestions: 10},
+  { _id: '3', name: 'nextjs', totalQuestions: 7},
+  { _id: '4', name: 'vue', totalQuestions: 3},
+  { _id: '5', name: 'html', totalQuestions: 4},
 ]
 const RightSidebar = () => {
   

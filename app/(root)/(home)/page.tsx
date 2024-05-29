@@ -1,3 +1,4 @@
+import QuestionCard from '@/components/cards/QuestionCard';
 import HomeFilters from '@/components/home/HomeFilters';
 import Filter from '@/components/shared/Filter';
 import NoResult from '@/components/shared/NoResult';
@@ -7,51 +8,67 @@ import { HomePageFilters } from '@/constants/filters';
 import Link from 'next/link';
 
 const questions = [
-  // {
-  //   _id: 1,
-  //   title: 'How do I write SQL?',
-  //   tags: [
-  //     {
-  //       _id: 1,
-  //       name: 'sql',
-  //     },
-  //   ],
-  //   author: 'John Doe',
-  //   upvotes: 10,
-  //   views: 100,
-  //   answers: 3,
-  //   createdAt: '2021-09-01T12:00:00.000Z',
-  // },
-  // {
-  //   _id: 2,
-  //   title: 'How does React work?',
-  //   tags: [
-  //     {
-  //       _id: 2,
-  //       name: 'react',
-  //     },
-  //   ],
-  //   author: 'Sally Doe',
-  //   upvotes: 10,
-  //   views: 50,
-  //   answers: 17,
-  //   createdAt: '2021-09-01T12:00:00.000Z',
-  // },
-  // {
-  //   _id: 3,
-  //   title: 'How does Vue work?',
-  //   tags: [
-  //     {
-  //       _id: 3,
-  //       name: 'vue',
-  //     },
-  //   ],
-  //   author: 'John Smith',
-  //   upvotes: 10,
-  //   views: 99,
-  //   answers: 10,
-  //   createdAt: '2021-09-01T12:00:00.000Z',
-  // },
+  {
+    _id: '1',
+    title: 'How do I write SQL?',
+    tags: [
+      {
+        _id: '1',
+        name: 'sql',
+      },
+    ],
+    author: {
+      _id: 'a1',
+      name: 'John Doe',
+      picture: 'https://randomuser.me/api/portraits/men/1.jpg',
+    },
+    upvotes: 100005,
+    views: 2500000,
+    answers: [],
+    createdAt: new Date('2021-09-01T12:00:00.000Z'),
+  },
+  {
+    _id: '2',
+    title: 'How does React work?',
+    tags: [
+      {
+        _id: '2',
+        name: 'react',
+      },
+      {
+        _id: '3',
+        name: 'programming'
+      }
+    ],
+    author: {
+      _id: 'a2',
+      name: 'Sally Doe',
+      picture: 'https://randomuser.me/api/portraits/women/2.jpg',
+    },
+    upvotes: 10,
+    views: 50,
+    answers: [],
+    createdAt: new Date('2023-09-01T12:00:00.000Z'),
+  },
+  {
+    _id: '3',
+    title: 'How does Vue work?',
+    tags: [
+      {
+        _id: '3',
+        name: 'vue',
+      },
+    ],
+    author: {
+      _id: 'a3',
+      name: 'John Smith',
+      picture: 'https://randomuser.me/api/portraits/men/3.jpg',
+    },
+    upvotes: 10,
+    views: 99,
+    answers: [],
+    createdAt: new Date('2022-09-01T12:00:00.000Z'),
+  },
 ];
 
 export default function Home() {
@@ -87,7 +104,19 @@ export default function Home() {
 
       <div className='mt-10 flex w-full flex-col gap-6'>
         {questions.length > 0
-          ? questions.map((question) => 'QuestionCard')
+          ? questions.map((question) => (
+            <QuestionCard
+              key={question._id}
+              _id={question._id}
+              title={question.title}
+              tags={question.tags}
+              author={question.author}
+              upvotes={question.upvotes}
+              views={question.views}
+              answers={question.answers}
+              createdAt={question.createdAt}
+            />
+          ))
           : <NoResult 
             title="There's no question to show"
             description='Be the first to break the silence! Ask a question and kickstart the discussion. Your question could be the next big thing others learn from. Get involved!'
