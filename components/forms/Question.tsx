@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Editor } from '@tinymce/tinymce-react';
+import { useRouter, usePathname } from 'next/navigation'
 
 import { Button } from '@/components/ui/button';
 import {
@@ -17,12 +18,25 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { QuestionSchema, QuestionsSchema } from '@/lib/validations';
+import { QuestionSchema } from '@/lib/validations';
 import { Badge } from '../ui/badge';
 import Image from 'next/image';
+import { createQuestion } from '@/lib/actions/question.action';
 
-const Question = () => {
+const type: any = 'create';
+
+interface QuestionProps {
+  mongoUserId: string;
+}
+
+const Question = ({
+  mongoUserId
+}: QuestionProps) => {
+  const router = useRouter()
+  const pathname = usePathname()
   const editorRef = useRef(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const form = useForm<z.infer<typeof QuestionSchema>>({
     resolver: zodResolver(QuestionSchema),
     defaultValues: {
@@ -33,10 +47,27 @@ const Question = () => {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof QuestionsSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof QuestionSchema>) {
+    setIsSubmitting(true);
+    
+    try {
+      // make an async call to your API => create a 
+      // question that contains all form data
+      // navigate to home page
+      await createQuestion({
+        title: values.title,
+        content: values.explanation,
+        tags: values.tags,
+        author: JSON.parse(mongoUserId),
+        path: pathname
+      })
+
+      router.push('/')
+    } catch (error) {
+
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleInputKeyDown = (
@@ -69,10 +100,10 @@ const Question = () => {
   };
 
   const handleTagRemove = (tag: string, field: any) => {
-    const newTags = field.value.filter((t: string) => t !== tag)
+    const newTags = field.value.filter((t: string) => t !== tag);
 
-    form.setValue('tags', newTags)
-  }
+    form.setValue('tags', newTags);
+  };
 
   return (
     <Form {...form}>
@@ -177,7 +208,7 @@ const Question = () => {
                   {field.value.length > 0 && (
                     <div className='flex-start mt-2.5 gap-2.5'>
                       {field.value.map((tag: any) => (
-                        <Badge 
+                        <Badge
                           key={tag}
                           className='subtle-medium background-light800_dark300 text-light400_light500 flex items-center justify-center gap-2 rounded-md border-none px-4 py-2 uppercase'
                           onClick={() => handleTagRemove(tag, field)}
@@ -204,7 +235,17 @@ const Question = () => {
             </FormItem>
           )}
         />
-        <Button type='submit'>Submit</Button>
+        <Button
+          type='submit'
+          className='primary-gradient w-fit !text-light-900'
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? (
+            <>{type === 'edit' ? 'Editing...' : 'Posting...'}</>
+          ) : (
+            <>{type === 'edit' ? 'Edit Question' : 'Ask a Question'}</>
+          )}
+        </Button>
       </form>
     </Form>
   );
