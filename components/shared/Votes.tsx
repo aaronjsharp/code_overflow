@@ -1,6 +1,10 @@
-"use client"
+'use client';
 
-import { downvoteQuestion, upvoteQuestion } from '@/lib/actions/question.action';
+import { downvoteAnswer, upvoteAnswer } from '@/lib/actions/answer.action';
+import {
+  downvoteQuestion,
+  upvoteQuestion,
+} from '@/lib/actions/question.action';
 import { formatNumber } from '@/lib/utils';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
@@ -24,17 +28,15 @@ const Votes = ({
   hasUpvoted,
   downvotes,
   hasDownvoted,
-  hasSaved
+  hasSaved,
 }: VotesProps) => {
-  const pathname = usePathname()
-  const router = useRouter()
+  const pathname = usePathname();
+  const router = useRouter();
 
-  const handleSave = () => {
-
-  }
+  const handleSave = () => {};
 
   const handleVote = async (action: string) => {
-    if (!userId) return 
+    if (!userId) return;
 
     if (action === 'upvote') {
       if (type === 'Question') {
@@ -43,20 +45,20 @@ const Votes = ({
           userId: JSON.parse(userId),
           hasUpvoted,
           hasDownvoted,
-          path: pathname
-        })
+          path: pathname,
+        });
       } else if (type === 'Answer') {
-        // await upvoteAnswer({
-        //   questionId: JSON.parse(itemId),
-        //   userId: JSON.parse(userId),
-        //   hasUpvoted,
-        //   hasDownvoted,
-        //   path: pathname
-        // })
+        await upvoteAnswer({
+          answerId: JSON.parse(itemId),
+          userId: JSON.parse(userId),
+          hasUpvoted,
+          hasDownvoted,
+          path: pathname,
+        });
       }
 
       // todo: show a toast
-      return
+      return;
     }
 
     if (action === 'downvote') {
@@ -66,31 +68,32 @@ const Votes = ({
           userId: JSON.parse(userId),
           hasUpvoted,
           hasDownvoted,
-          path: pathname
-        })
+          path: pathname,
+        });
       } else if (type === 'Answer') {
-        // await downvoteAnswer({
-        //   questionId: JSON.parse(itemId),
-        //   userId: JSON.parse(userId),
-        //   hasUpvoted,
-        //   hasDownvoted,
-        //   path: pathname
-        // })
+        await downvoteAnswer({
+          answerId: JSON.parse(itemId),
+          userId: JSON.parse(userId),
+          hasUpvoted,
+          hasDownvoted,
+          path: pathname,
+        });
       }
 
       // todo: show a toast
-      return
+      return;
     }
-  }
+  };
 
   return (
     <div className='flex gap-5'>
       <div className='flex-center gap-2.5'>
         <div className='flex-center gap-1.5'>
-          <Image 
-            src={hasUpvoted 
-              ? '/assets/icons/upvoted.svg' 
-              : '/assets/icons/upvote.svg'
+          <Image
+            src={
+              hasUpvoted
+                ? '/assets/icons/upvoted.svg'
+                : '/assets/icons/upvote.svg'
             }
             width={18}
             height={18}
@@ -107,10 +110,11 @@ const Votes = ({
         </div>
 
         <div className='flex-center gap-1.5'>
-          <Image 
-            src={hasDownvoted 
-              ? '/assets/icons/downvoted.svg' 
-              : '/assets/icons/downvote.svg'
+          <Image
+            src={
+              hasDownvoted
+                ? '/assets/icons/downvoted.svg'
+                : '/assets/icons/downvote.svg'
             }
             width={18}
             height={18}
@@ -127,19 +131,22 @@ const Votes = ({
         </div>
       </div>
 
-      <Image 
-            src={hasSaved 
-              ? '/assets/icons/star-filled.svg' 
+      {type === 'Question' && (
+        <Image
+          src={
+            hasSaved
+              ? '/assets/icons/star-filled.svg'
               : '/assets/icons/star-red.svg'
-            }
-            width={18}
-            height={18}
-            alt='star'
-            className='cursor-pointer'
-            onClick={handleSave}
-          />
+          }
+          width={18}
+          height={18}
+          alt='star'
+          className='cursor-pointer'
+          onClick={handleSave}
+        />
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default Votes
+export default Votes;
