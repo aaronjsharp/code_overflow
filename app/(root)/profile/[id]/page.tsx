@@ -11,6 +11,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { getJoinedDate } from '@/lib/utils';
 import ProfileLink from '@/components/shared/ProfileLink';
 import Stats from '@/components/shared/Stats';
+import QuestionsTab from '@/components/shared/QuestionsTab';
+import AnswersTab from '@/components/shared/AnswersTab';
 
 const Page = async ({ params, searchParams }: URLProps) => {
   const { userId: clerkId } = auth();
@@ -36,7 +38,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
             </p>
 
             <div className='mt-5 flex flex-wrap items-center justify-start gap-5'>
-            {userInfo.user.portfolioWebsite && (
+              {userInfo.user.portfolioWebsite && (
                 <ProfileLink
                   imgUrl='/assets/icons/link.svg'
                   href={userInfo.user.portfolioWebsite}
@@ -75,12 +77,12 @@ const Page = async ({ params, searchParams }: URLProps) => {
           </SignedIn>
         </div>
       </div>
-      <Stats 
+      <Stats
         totalQuestions={userInfo.totalQuestions}
         totalAnswers={userInfo.totalAnswers}
       />
       <div className='mt-10 flex gap-10'>
-        <Tabs defaultValue='top-post' className='flex-1'>
+        <Tabs defaultValue='top-posts' className='flex-1'>
           <TabsList className='background-light800_dark400 min-h-[42px] p-1'>
             <TabsTrigger value='top-posts' className='tab'>
               Top Posts
@@ -89,8 +91,23 @@ const Page = async ({ params, searchParams }: URLProps) => {
               Answers
             </TabsTrigger>
           </TabsList>
-          <TabsContent value='top-posts'>POSTS</TabsContent>
-          <TabsContent value='answers'>ANSWERS</TabsContent>
+          <TabsContent
+            value='top-posts'
+            className='mt-5 flex w-full flex-col gap-6'
+          >
+            <QuestionsTab
+              searchParams={searchParams}
+              userId={userInfo.user._id}
+              clerkId={clerkId}
+            />
+          </TabsContent>
+          <TabsContent value='answers' className='flex w-full flex-col gap-6'>
+            <AnswersTab
+              searchParams={searchParams}
+              userId={userInfo.user._id}
+              clerkId={clerkId}
+            />
+          </TabsContent>
         </Tabs>
       </div>
     </>

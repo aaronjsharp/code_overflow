@@ -19,11 +19,13 @@ interface QuestionCardProps {
   };
   upvotes: string[];
   views: number;
+  clerkId?: string | null;
   answers: Array<object>;
   createdAt: Date;
 }
 
 const QuestionCard = ({
+  clerkId,
   _id,
   title,
   tags,
@@ -33,6 +35,7 @@ const QuestionCard = ({
   answers,
   createdAt,
 }: QuestionCardProps) => {
+
   return (
     <div className='card-wrapper rounded-[10px] p-9 sm:px-11'>
       <div className='flex flex-col-reverse items-start justify-between gap-5 sm:flex-row'>
