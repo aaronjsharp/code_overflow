@@ -44,3 +44,12 @@ export function formatNumber(num: number): string {
 
   return result;
 }
+
+export const getJoinedDate = (date: Date): string => {
+  // Get the month and year from the date
+  const month = date.toLocaleString('default', { month: 'long' });
+  const year = date.getFullYear();
+
+  // Return the formatted string
+  return `${month} ${year}`;
+}
