@@ -36,20 +36,6 @@ export async function createUser(userData: CreateUserParams) {
   }
 }
 
-export async function updateUser(params: UpdateUserParams) {
-  try {
-    connectToDatabase()
-
-    const { clerkId, updateData, path } = params
-
-    await User.findOneAndUpdate({ clerkId }, updateData, { new: true })
-    
-    revalidatePath(path)
-  } catch (error) {
-    console.log(error)
-    throw error
-  }
-}
 
 export async function deleteUser(params: DeleteUserParams) {
   try {
@@ -236,6 +222,21 @@ export async function getUserAnswers(params: GetUserStatsParams) {
       })
 
     return { totalAnswers, answers: userAnswers }
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
+
+export async function updateUser(params: UpdateUserParams) {
+  try {
+    connectToDatabase()
+
+    const { clerkId, updateData, path } = params
+
+    await User.findOneAndUpdate({ clerkId }, updateData, { new: true })
+    
+    revalidatePath(path)
   } catch (error) {
     console.log(error)
     throw error
