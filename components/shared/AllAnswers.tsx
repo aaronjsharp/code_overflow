@@ -12,7 +12,7 @@ interface AllAnswersProps {
   userId: string;
   totalAnswers: number;
   page?: number;
-  filter?: number;
+  filter?: string;
 }
 
 const AllAnswers = async ({
@@ -22,7 +22,11 @@ const AllAnswers = async ({
   page,
   filter,
 }: AllAnswersProps) => {
-  const result = await getAnswers({ questionId });
+  const result = await getAnswers({ 
+    questionId,
+    page: page ? +page : 1,
+    sortBy: filter
+  });
   return (
     <div className='mt-11'>
       <div className='flex items-center justify-between'>
