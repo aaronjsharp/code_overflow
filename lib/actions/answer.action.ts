@@ -148,3 +148,20 @@ export async function deleteAnswer(params: DeleteAnswerParams) {
     console.log(error);
   }
 }
+
+export async function getAllAnswers(params: GetAnswersParams) {
+  try {
+    connectToDatabase()
+
+    const { questionId } = params
+
+    const answers = await Answer.find({ question: questionId })
+      .populate("author", "_id clerkId name picture")
+      .sort({ createdAt: -1 })
+
+    return { answers }
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
