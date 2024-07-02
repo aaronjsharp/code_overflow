@@ -73,7 +73,7 @@ export default async function Home({ searchParams }: SearchParamsProps) {
       </div>
       <div className='mt-10'>
         <Pagination
-          pageNumber={searchParams?.page ? +searchParams.page : 1}
+          pageNumber={searchParams.page ? +searchParams.page : 1}
           isNext={result.isNext}
         />
       </div>
